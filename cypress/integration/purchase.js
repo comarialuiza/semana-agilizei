@@ -30,5 +30,15 @@ context('Purchase', () => {
 
         cy.get('[type=checkbox]#cgv').check();
         cy.get('button[name=processCarrier]').click();
+
+        cy.get('.bankwire').click();
+
+        cy.get('.cart_navigation button[type=submit]')
+            .find('span')
+            .contains('I confirm my order')
+            .click();
+
+        cy.get('.cheque-indent strong')
+            .should('contain.text', 'Your order on My Store is complete.')
     });
 });
