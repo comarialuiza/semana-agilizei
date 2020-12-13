@@ -16,6 +16,13 @@ context('Purchase', () => {
             .first()
             .click()
 
+        cy.get('.icon-ok')
+            .parent()
+            .should('contain.text', 'Product successfully added to your shopping cart');
+
+        cy.get('span#layer_cart_product_title')
+            .should('contain.text', productName);
+
         cy.get('.button-container a[href$="controller=order"]').click();
 
         cy.get('.cart_navigation a[href$="order&step=1"]').click();
@@ -24,7 +31,10 @@ context('Purchase', () => {
         cy.get('#passwd').type('test12345');
         cy.get('button#SubmitLogin').click();
 
-        // cy.get('#addressesAreEqual')
+        cy.get('[type=checkbox]#addressesAreEquals').should('have.attr', 'checked', 'checked');
+        cy.get('[type=checkbox]#addressesAreEquals').should('have.attr', 'name', 'same');
+
+        cy.pause();
 
         cy.get('button[name=processAddress]').click();
 
@@ -39,6 +49,7 @@ context('Purchase', () => {
             .click();
 
         cy.get('.cheque-indent strong')
-            .should('contain.text', 'Your order on My Store is complete.')
+            .should('contain.text', 'Your order on My Store is complete.');
+
     });
 });
