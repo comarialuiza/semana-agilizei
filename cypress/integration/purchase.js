@@ -51,5 +51,14 @@ context('Purchase', () => {
         cy.get('.cheque-indent strong')
             .should('contain.text', 'Your order on My Store is complete.');
 
+        cy.get('div.box').invoke('text').then(text => {
+            cy.writeFile('cypress/fixtures/token.json', { id: `${ text.match(/[A-Z][A-Z]+/g)[1] }` })
+        })
+
+        cy.get('a[href$="history"]').click();
+
+        cy.readFile('cypress/fixtures/token.json').then(token => {
+            cy.get('tr.first_item .history_link .color-myaccount').should('contain.text', token.id)
+        });
     });
 });
